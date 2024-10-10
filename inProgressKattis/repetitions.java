@@ -13,24 +13,40 @@ public class repetitions {
         // System.out.println(calcUpperLimit(4));
         // System.out.println(calcUpperLimit(5));
         // if(true) return;
-        int n = Integer.parseInt(_scanner.nextLine());
-        int k = Integer.parseInt(_scanner.nextLine());
+        int n = _scanner.nextInt();
+        int k = _scanner.nextInt();
+        _scanner.nextLine();
 
         // Number of characters needed to reach continues repetition
         // int initialValue = k*k + k;
         // int nrToContinuesRe = k * (initialValue + 1); // Upper limit
         int nrToContinuesRe = calcUpperLimit(k);
-        System.out.println("Upper Limit: " + nrToContinuesRe);
+        // System.out.println("Upper Limit: " + nrToContinuesRe);
 
         int result = calcNrOfOnes(k, k, nrToContinuesRe < n ? nrToContinuesRe : n, nrToContinuesRe);
         int extra = result / k;
         if (extra <= 1)
             extra = 0;
+
+        // This reminder do not take into consideration that the reminder is bigger than
+        // (k * k + k)
+        int reminder = n - usedNumbers;
+        int firstLayerLength = k * k + k;
+        if (n < nrToContinuesRe) {
+            while (reminder > firstLayerLength) {
+                int subResult = calcNrOfOnes(k, k, nrToContinuesRe < reminder ? nrToContinuesRe : reminder,
+                        nrToContinuesRe);
+                int subExtra = subResult / k;
+                result += subResult;
+                extra += subExtra;
+                reminder -= usedNumbers;
+            }
+        }
         extra += (n - usedNumbers) / (k + 1);
 
-        System.out.println("Results Before: " + (result));
-        System.out.println("Results After: " + (result + result / k));
-        System.out.println("Used Numbers: " + (usedNumbers));
+        // System.out.println("Results Before: " + (result));
+        // System.out.println("Results After: " + (result + result / k));
+        // System.out.println("Used Numbers: " + (usedNumbers));
         result += extra + (n > nrToContinuesRe ? n - nrToContinuesRe : 0);
 
         System.out.println(result);
