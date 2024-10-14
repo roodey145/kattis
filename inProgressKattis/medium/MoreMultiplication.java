@@ -25,6 +25,9 @@ public class MoreMultiplication {
             rowsCells.add(joinCells(rowsData.get(innerNr)));
         }
 
+        String headerCell = addHeader(number1, rowsCells.remove(0));
+        rowsCells.add(0, headerCell);
+
         for (String s : rowsCells) {
             System.out.println(s);
         }
@@ -58,4 +61,31 @@ public class MoreMultiplication {
                 + joinedCellsRow2.toString() + "\n"
                 + joinedCellsRow3.toString() + "\n";
     }
+
+    private static String addHeader(String numbers, String row) {
+        StringBuilder rowWithHeader = new StringBuilder();
+
+        // Add the header
+        rowWithHeader.append(" ");
+        for (int i = 0; i < numbers.length(); i++) {
+            rowWithHeader.append(" " + numbers.charAt(i) + "  ");
+        }
+
+        rowWithHeader.append("\n" + createHorBorder(numbers.length()) + "\n");
+
+        rowWithHeader.append(row);
+
+        return rowWithHeader.toString();
+    }
+
+    private static String createHorBorder(int length) {
+        StringBuilder border = new StringBuilder("+");
+        for (int i = 0; i < length; i++) {
+            border.append("---+");
+        }
+
+        return border.toString();
+    }
+
+    // private static String createCell()
 }
